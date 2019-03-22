@@ -20,23 +20,24 @@ Also, this is written in NodeJS. If you prefer PHP I have a primitive version of
     - Application Type (Web Application)
     - Callback Domain (anything, e.g. www.github.com)
     - API Permissions (checkmark Fantasy Sports, then Read/Write)
-![](/screenshots/yahoo-1.png)
+    - ![](/screenshots/yahoo-1.png)
 4. Create App
 5. Yahoo will give you 3 values. Write down the last two:
     - App ID (don't care)
     - Client ID/Consumer Key
     - Client Secret/Consumer Secret
-![](/screenshots/yahoo-2.png)    
-
+    - ![](/screenshots/yahoo-2.png)    
 6. However the above codes are **not enough** to interface with the Yahoo Fantasy API. Take the `Client ID/Consumer Key` from above and paste it into the following URL:
-
-    https://api.login.yahoo.com/oauth2/request_auth?client_id=YOUR-CLIENT-ID-GOES-HERE&redirect_uri=oob&response_type=code&language=en-us
+    
+https://api.login.yahoo.com/oauth2/request_auth?client_id=YOUR-CLIENT-ID-GOES-HERE&redirect_uri=oob&response_type=code&language=en-us
 
 7. Enter that URL into your browser.
 8. Agree to allow access for your app.
-![](/screenshots/yahoo-4.png)
+ - ![](/screenshots/yahoo-4.png)
+
 9. Grab the code Yahoo now gives you.
-![](/screenshots/yahoo-5.png)
+ - ![](/screenshots/yahoo-5.png)
+
 
 ### Part 2: Configure this app
 
