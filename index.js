@@ -45,7 +45,7 @@ const getData = async() => {
 
             const data = JSON.stringify(allData);
 
-            const outputFile = './allmyData.json';
+            const outputFile = './allMyData.json';
 
             // Writing to file
             fs.writeFile(outputFile, data, {flag: 'w'}, (err) => {

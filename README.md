@@ -109,7 +109,7 @@ const allData = {
 };
 ```
 
-And write this JSON object to a file, `allmyData.json`.  From there you should be able to consume and manipulate your data.
+And write this JSON object to a file, `allMyData.json`.  From there you should be able to consume and manipulate your data.
 
 This may or may not include your desired data set, but you should be able to use this template to pull in whatever you want. The Yahoo API docs are not great so I've summarized them below.
 
