@@ -144,17 +144,21 @@ Each endpoint has subresources that can be accessed:
 
 ![](/screenshots/plectica-big.png)
 
+### Base URL
+
+For all the links below, the base URL is https://fantasysports.yahooapis.com/fantasy/v2
+
 #### Player subresources
 - With the Player API, you can obtain the player (athlete) related information, such as their name, professional team, and eligible positions.
 - E.g. https://fantasysports.yahooapis.com/fantasy/v2/league/223.l.431/players;player_keys=223.p.5479
 
 | Name | Description | URI | Sample |
 | ---- | ----------- | --- | ------ |
-| metadata | Includes player key, id, name, editorial information, image, eligible positions, etc. | /fantasy/v2/player/{player_key}/metadata | Drew Brees's info in the 2009 season: http://fantasysports.yahooapis.com/fantasy/v2/player/223.p.5479 |
-| stats | Player stats and points (if in a league context). | Season stats: /fantasy/v2/player/{player_key}/stats Week stats: /fantasy/v2/player/{player_key}/stats;type=week;week={week} Here {week} is a non-zero integer. | Drew Brees's info and stats in the 2009 season: http://fantasysports.yahooapis.com/fantasy/v2/player/223.p.5479/stats |
-| ownership | The player ownership status within a league (whether they're owned by a team, on waivers, or free agents). Only relevant within a league. | /fantasy/v2/league/{league_key}/players;player_keys={player_key}/ownership | http://fantasysports.yahooapis.com/fantasy/v2/league/223.l.431/players;player_keys=223.p.5479/ownership |
-| percent_owned | Data about ownership percentage of the player | /fantasy/v2/player/{player_key}/percent_owned | The percentage of leagues in which Drew Brees was owned in the 2009 game: http://fantasysports.yahooapis.com/fantasy/v2/player/223.p.5479/percent_owned |
-| draft_analysis | Average pick, Average round and Percent Drafted. | /fantasy/v2/player/{player_key}/draft_analysis | Yahoo! fantasy draft information for Drew Brees in 2009: http://fantasysports.yahooapis.com/fantasy/v2/player/223.p.5479/draft_analysis |
+| metadata | Includes player key, id, name, editorial information, image, eligible positions, etc. | /fantasy/v2/player/{player_key}/metadata | Drew Brees's info in the 2009 season: /player/223.p.5479 |
+| stats | Player stats and points (if in a league context). | Season stats: /fantasy/v2/player/{player_key}/stats Week stats: /fantasy/v2/player/{player_key}/stats;type=week;week={week} Here {week} is a non-zero integer. | Drew Brees's info and stats in the 2009 season: /player/223.p.5479/stats |
+| ownership | The player ownership status within a league (whether they're owned by a team, on waivers, or free agents). Only relevant within a league. | /fantasy/v2/league/{league_key}/players;player_keys={player_key}/ownership | /league/223.l.431/players;player_keys=223.p.5479/ownership |
+| percent_owned | Data about ownership percentage of the player | /fantasy/v2/player/{player_key}/percent_owned | The percentage of leagues in which Drew Brees was owned in the 2009 game: /player/223.p.5479/percent_owned |
+| draft_analysis | Average pick, Average round and Percent Drafted. | /fantasy/v2/player/{player_key}/draft_analysis | Yahoo! fantasy draft information for Drew Brees in 2009: /player/223.p.5479/draft_analysis |
 
 #### Player collection
 - "With the Players API, you can obtain information from a collection of players simultaneously."
@@ -177,21 +181,21 @@ Each endpoint has subresources that can be accessed:
 
 #### Game subresources
 - With the Game API, you can obtain the fantasy game related information, like the fantasy game name, the Yahoo! game code, and season.
-- E.g. http://fantasysports.yahooapis.com/fantasy/v2/game/{game_key}/{sub_resource}
+- E.g. /game/{game_key}/{sub_resource}
 
 | Name | Description | URI | Sample |
 | ---- | ----------- | --- | ------ |
-| metadata | Includes game key, code, name, url, type and season. | /fantasy/v2/game/{game_key}/metadata | The 2009 Football PLUS game: http://fantasysports.yahooapis.com/fantasy/v2/game/223|
-| leagues | Fetch specified leagues under a game. | /fantasy/v2/game/{game_key}/leagues;league_keys={league_key1},{league_key2} | A publicly viewable league within the 2009 football plus game: http://fantasysports.yahooapis.com/fantasy/v2/game/223/leagues;league_keys=223.l.431|
-| players | Fetch specified players under a game. | /fantasy/v2/game/{game_key}/players;player_keys={player_key1},{player_key2} | Brett Favre's information from the 2009 football plus game: http://fantasysports.yahooapis.com/fantasy/v2/game/223/players;player_keys=223.p.1025|
-| game_weeks | Start and end date information for each week in the game | /fantasy/v2/game/{game_key}/game_weeks | NFL game weeks http://fantasysports.yahooapis.com/fantasy/v2/game/nfl/game_weeks|
-| stat_categories | Detailed description of all available stat categories for the game. | /fantasy/v2/game/{game_key}/stat_categories | NFL stat categories http://fantasysports.yahooapis.com/fantasy/v2/game/nfl/stat_categories|
-| position_types | Detailed description of all player position types for the game. | /fantasy/v2/game/{game_key}/position_types | NFL position types http://fantasysports.yahooapis.com/fantasy/v2/game/nfl/position_types|
-| roster_positions | Detailed description of all roster positions for the game. | /fantasy/v2/game/{game_key}/roster_positions | NFL roster positions http://fantasysports.yahooapis.com/fantasy/v2/game/nfl/roster_positions |
+| metadata | Includes game key, code, name, url, type and season. | /fantasy/v2/game/{game_key}/metadata | The 2009 Football PLUS game: /game/223|
+| leagues | Fetch specified leagues under a game. | /fantasy/v2/game/{game_key}/leagues;league_keys={league_key1},{league_key2} | A publicly viewable league within the 2009 football plus game: /game/223/leagues;league_keys=223.l.431|
+| players | Fetch specified players under a game. | /fantasy/v2/game/{game_key}/players;player_keys={player_key1},{player_key2} | Brett Favre's information from the 2009 football plus game: /game/223/players;player_keys=223.p.1025|
+| game_weeks | Start and end date information for each week in the game | /fantasy/v2/game/{game_key}/game_weeks | NFL game weeks /game/nfl/game_weeks|
+| stat_categories | Detailed description of all available stat categories for the game. | /fantasy/v2/game/{game_key}/stat_categories | NFL stat categories /game/nfl/stat_categories|
+| position_types | Detailed description of all player position types for the game. | /fantasy/v2/game/{game_key}/position_types | NFL position types /game/nfl/position_types|
+| roster_positions | Detailed description of all roster positions for the game. | /fantasy/v2/game/{game_key}/roster_positions | NFL roster positions /game/nfl/roster_positions |
 
 #### Games collection
 - With the Games API, you can obtain information from a collection of games simultaneously. Each element beneath the Games Collection will be a Game Resource
-- E.g. http://fantasysports.yahooapis.com/fantasy/v2/games;game_keys={game_key1},{game_key2};out={sub_resource_1},{sub_resource_2}
+- E.g. https://fantasysports.yahooapis.com/fantasy/v2/games;game_keys={game_key1},{game_key2};out={sub_resource_1},{sub_resource_2}
 
 #### Games filters
 | Filter parameter | Filter parameter values | Usage |
@@ -207,14 +211,14 @@ Each endpoint has subresources that can be accessed:
 
 | Name | Description | URI | Sample |
 | ---- | ----------- | --- | ------ |
-| metadata | Includes league key, id, name, url, draft status, number of teams, and current week information. | /fantasy/v2/league/{league_key}/metadata |  http://fantasysports.yahooapis.com/fantasy/v2/league/223.l.431 |
-| settings | League settings. For instance, draft type, scoring type, roster positions, stat categories and modifiers, divisions. | /fantasy/v2/league/{league_key}/settings |  http://fantasysports.yahooapis.com/fantasy/v2/league/223.l.431/settings |
-| standings | Ranking of teams within the league. Accepts Teams as a sub-resource, and includes team_standings data by default beneath the teams | /fantasy/v2/league/{league_key}/standings |  http://fantasysports.yahooapis.com/fantasy/v2/league/223.l.431/standings |
+| metadata | Includes league key, id, name, url, draft status, number of teams, and current week information. | /fantasy/v2/league/{league_key}/metadata |  /league/223.l.431 |
+| settings | League settings. For instance, draft type, scoring type, roster positions, stat categories and modifiers, divisions. | /fantasy/v2/league/{league_key}/settings |  /league/223.l.431/settings |
+| standings | Ranking of teams within the league. Accepts Teams as a sub-resource, and includes team_standings data by default beneath the teams | /fantasy/v2/league/{league_key}/standings |  /league/223.l.431/standings |
 | scoreboard | League scoreboard. Accepts Matchups as a sub-resource, which in turn accept Teams as a sub-resource. Includes team_stats data by default. | Scoreboard for current week: /fantasy/v2/league/{league_key}/scoreboard | Scoreboard for a particular week: /fantasy/v2/league/{league_key}/scoreboard;week={week} |
-| teams | All teams in the league. | /fantasy/v2/league/{league_key}/teams |  http://fantasysports.yahooapis.com/fantasy/v2/league/223.l.431/teams |
-| players | The league's eligible players. | /fantasy/v2/league/{league_key}/players |  http://fantasysports.yahooapis.com/fantasy/v2/league/223.l.431/players |
-| draftresults | Draft results for all teams in the league. | /fantasy/v2/league/{league_key}/draftresults |  http://fantasysports.yahooapis.com/fantasy/v2/league/223.l.431/draftresults |
-| transactions | League transactions -- adds, drops, and trades. | /fantasy/v2/league/{league_key}/transactions |  http://fantasysports.yahooapis.com/fantasy/v2/league/223.l.431/transactions |
+| teams | All teams in the league. | /fantasy/v2/league/{league_key}/teams |  /league/223.l.431/teams |
+| players | The league's eligible players. | /fantasy/v2/league/{league_key}/players |  /league/223.l.431/players |
+| draftresults | Draft results for all teams in the league. | /fantasy/v2/league/{league_key}/draftresults |  /league/223.l.431/draftresults |
+| transactions | League transactions -- adds, drops, and trades. | /fantasy/v2/league/{league_key}/transactions |  /league/223.l.431/transactions |
 
 #### Leagues collection
 - With the Leagues API, you can obtain information from a collection of leagues simultaneously.
@@ -226,12 +230,12 @@ Each endpoint has subresources that can be accessed:
 
 | Name | Description | URI | Sample |
 | ---- | ----------- | --- | ------ |
-| metadata | Includes team key, id, name, url, division ID, logos, and team manager information. | /fantasy/v2/team/{team_key}/metadata | http://fantasysports.yahooapis.com/fantasy/v2/team/223.l.431.t.9 |
-| stats | Team statistical data and points. | Season stats: /fantasy/v2/team/{team_key}/stats Week stats: /fantasy/v2/team/{team_key}/stats;type=week;week={week} Here {week} is a non-zero integer, or current for the current week. | http://fantasysports.yahooapis.com/fantasy/v2/team/223.l.431.t.9/stats;type=week;week=2 |
-| standings | Team rank, wins, losses, ties, and winning percentage (as well as divisional data if applicable). | /fantasy/v2/team/{team_key}/standings | http://fantasysports.yahooapis.com/fantasy/v2/team/223.l.431.t.9/standings |
-| roster | Team roster. Accepts a week parameter. Also accepts Players as a sub-resource (included by default) | Roster for a particular week: /fantasy/v2/team/{team_key}/roster;week={week} Here {week} is a non-zero integer. If week is current, or isn't provided, defaults to current week. | http://fantasysports.yahooapis.com/fantasy/v2/team/223.l.431.t.9/roster;week=2 - The week 2 roster for team 223.l.431.t.9 |
-| draftresults | List of players drafted by the team. | /fantasy/v2/team/{team_key}/draftresults | http://fantasysports.yahooapis.com/fantasy/v2/team/223.l.431.t.9/draftresults |
-| matchups | All the matchups this team has scheduled (for H2H leagues). | All matchups: /fantasy/v2/team/{team_key}/matchups Particular weeks: /fantasy/v2/team/{team_key}/matchups;weeks=1,3,6 | http://fantasysports.yahooapis.com/fantasy/v2/team/223.l.431.t.9/matchups;weeks=1,3,6 |
+| metadata | Includes team key, id, name, url, division ID, logos, and team manager information. | /fantasy/v2/team/{team_key}/metadata | /team/223.l.431.t.9 |
+| stats | Team statistical data and points. | Season stats: /fantasy/v2/team/{team_key}/stats Week stats: /fantasy/v2/team/{team_key}/stats;type=week;week={week} Here {week} is a non-zero integer, or current for the current week. | /team/223.l.431.t.9/stats;type=week;week=2 |
+| standings | Team rank, wins, losses, ties, and winning percentage (as well as divisional data if applicable). | /fantasy/v2/team/{team_key}/standings | /team/223.l.431.t.9/standings |
+| roster | Team roster. Accepts a week parameter. Also accepts Players as a sub-resource (included by default) | Roster for a particular week: /fantasy/v2/team/{team_key}/roster;week={week} Here {week} is a non-zero integer. If week is current, or isn't provided, defaults to current week. | /team/223.l.431.t.9/roster;week=2 - The week 2 roster for team 223.l.431.t.9 |
+| draftresults | List of players drafted by the team. | /fantasy/v2/team/{team_key}/draftresults | /team/223.l.431.t.9/draftresults |
+| matchups | All the matchups this team has scheduled (for H2H leagues). | All matchups: /fantasy/v2/team/{team_key}/matchups Particular weeks: /fantasy/v2/team/{team_key}/matchups;weeks=1,3,6 | /team/223.l.431.t.9/matchups;weeks=1,3,6 |
 
 #### Teams collection
 - With the Teams API, you can obtain information from a collection of teams simultaneously.
@@ -243,7 +247,7 @@ Each endpoint has subresources that can be accessed:
 
 | Name | Description | URI | Sample |
 | ---- | ----------- | --- | ------ |
-| players | Access the players collection within the roster. | /fantasy/v2/team/{team_key}/roster/players | http://fantasysports.yahooapis.com/fantasy/v2/team/223.l.431.t.9/roster/players |
+| players | Access the players collection within the roster. | /fantasy/v2/team/{team_key}/roster/players | /team/223.l.431.t.9/roster/players |
 
 
 #### Transaction subresources
@@ -252,8 +256,8 @@ Each endpoint has subresources that can be accessed:
 
 | Name | Description | URI | Sample |
 | ---- | ----------- | --- | ------ |
-| metadata | Includes transaction key, id, type, timestamp, status, players (not displayed for all transaction types) | /fantasy/v2/transaction/{transaction_key}/metadata | An add/drop transaction: http://fantasysports.yahooapis.com/fantasy/v2/transaction/223.l.431.tr.26 |
-| players | Players that are part of the transaction. The Player Resources will include a transaction data element by default. | /fantasy/v2/transaction/{transaction_key}/players | http://fantasysports.yahooapis.com/fantasy/v2/transaction/223.l.431.tr.26/players |
+| metadata | Includes transaction key, id, type, timestamp, status, players (not displayed for all transaction types) | /fantasy/v2/transaction/{transaction_key}/metadata | An add/drop transaction: /transaction/223.l.431.tr.26 |
+| players | Players that are part of the transaction. The Player Resources will include a transaction data element by default. | /fantasy/v2/transaction/{transaction_key}/players | /transaction/223.l.431.tr.26/players |
 
 
 #### Transaction collection
@@ -275,8 +279,8 @@ Each endpoint has subresources that can be accessed:
 
 | Name | Description | URI | Sample |
 | ---- | ----------- | --- | ------ |
-| games | Fetch the Games in which the user has played. Additionally accepts flags is_available to only return available games. | /fantasy/v2/users;use_login=1/games | http://fantasysports.yahooapis.com/fantasy/v2/users;use_login=1/games |
-| games/leagues | Fetch leagues that the user belongs to in one or more games. The leagues will be scoped to the user. This will throw an error if any of the specified games do not support league sub-resources. | /fantasy/v2/users;use_login=1/games;game_keys={game_key1},{game_key2}/leagues | http://fantasysports.yahooapis.com/fantasy/v2/users;use_login=1/games;game_keys=223/leagues |
+| games | Fetch the Games in which the user has played. Additionally accepts flags is_available to only return available games. | /fantasy/v2/users;use_login=1/games | /users;use_login=1/games |
+| games/leagues | Fetch leagues that the user belongs to in one or more games. The leagues will be scoped to the user. This will throw an error if any of the specified games do not support league sub-resources. | /fantasy/v2/users;use_login=1/games;game_keys={game_key1},{game_key2}/leagues | /users;use_login=1/games;game_keys=223/leagues |
 | games/teams | Fetch teams owned by the user in one or more games. The teams will be scoped to the user. This will throw an error if any of the specified games do not support team sub-resources. | /fantasy/v2/users;use_login=1/games;game_keys={game_key1},{game_key2}/teams |
 
 #### User resource/collection
@@ -284,6 +288,6 @@ Each endpoint has subresources that can be accessed:
 
 | Name | Description | URI | Sample |
 | ---- | ----------- | --- | ------ |
-| games | Fetch the Games in which the user has played. Additionally accepts flags is_available to only return available games. | /fantasy/v2/users;use_login=1/games | http://fantasysports.yahooapis.com/fantasy/v2/users;use_login=1/games |
-| games/leagues | Fetch leagues that the user belongs to in one or more games. The leagues will be scoped to the user. This will throw an error if any of the specified games do not support league sub-resources. | /fantasy/v2/users;use_login=1/games;game_keys={game_key1},{game_key2}/leagues | http://fantasysports.yahooapis.com/fantasy/v2/users;use_login=1/games;game_keys=223/leagues |
-| games/teams | Fetch teams owned by the user in one or more games. The teams will be scoped to the user. This will throw an error if any of the specified games do not support team sub-resources. | /fantasy/v2/users;use_login=1/games;game_keys={game_key1},{game_key2}/teams | http://fantasysports.yahooapis.com/fantasy/v2/users;use_login=1/games;game_keys=223/teams |
+| games | Fetch the Games in which the user has played. Additionally accepts flags is_available to only return available games. | /fantasy/v2/users;use_login=1/games | /users;use_login=1/games |
+| games/leagues | Fetch leagues that the user belongs to in one or more games. The leagues will be scoped to the user. This will throw an error if any of the specified games do not support league sub-resources. | /fantasy/v2/users;use_login=1/games;game_keys={game_key1},{game_key2}/leagues | /users;use_login=1/games;game_keys=223/leagues |
+| games/teams | Fetch teams owned by the user in one or more games. The teams will be scoped to the user. This will throw an error if any of the specified games do not support team sub-resources. | /fantasy/v2/users;use_login=1/games;game_keys={game_key1},{game_key2}/teams | /users;use_login=1/games;game_keys=223/teams |
