@@ -12,7 +12,7 @@ Also, this is written in NodeJS. If you prefer PHP I have a primitive version of
 
 ## Installation
 
-### Part 1: Get access codes form Yahoo
+### Part 1: Get access codes from Yahoo
 1. Log into Yahoo
 2. Navigate to https://developer.yahoo.com/apps/create/
 3. Fill out the form
