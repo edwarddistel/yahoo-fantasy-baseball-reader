@@ -85,7 +85,6 @@ exports.yfbb = {
                 code: CONFIG.YAHOO_AUTH_CODE,
                 grant_type: 'authorization_code'
             }),
-            timeout: 1000,
             }).catch((err) => {
                 console.error(`Error in getInitialAuthorization(): ${err}`);
             });
@@ -106,7 +105,6 @@ exports.yfbb = {
                 grant_type: 'refresh_token',
                 refresh_token: token
             }),
-            timeout: 10000,
         }).catch((err) => {
             console.error(`Error in refreshAuthorizationToken(): ${err}`);
         });       
@@ -124,7 +122,6 @@ exports.yfbb = {
                     'Content-Type': 'application/x-www-form-urlencoded',
                     'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.109 Safari/537.36',
                 },
-                timeout: 10000,
             });
             const jsonData = JSON.parse(parser.toJson(response.data));
             return jsonData;
