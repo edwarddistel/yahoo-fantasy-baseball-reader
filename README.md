@@ -55,35 +55,15 @@ https://api.login.yahoo.com/oauth2/request_auth?client_id=YOUR-CLIENT-ID-GOES-HE
         - (3) the unique ID of your league
         - E.g.: `388.l.123456`
         - To find out this number:
-            - If it's 2019, the unique prefix for MLB is `388`. 
-            - If it's not 2019 you can find out the league prefix by replacing `index.js` with this:
-            ```JavaScript
-            const yahoo = require('./yahooFantasyBaseball');
-
-            const getData = async() => {
-                try {
-                    // Read credentials file or get new authorization token
-                    await yahoo.yfbb.readCredentials();
-                    
-                    // If crededentials exist
-                    if (yahoo.yfbb.CREDENTIALS) {
-                    
-                    // Output the league prefix
-                    console.log(await yahoo.yfbb.getLeaguePrefix());
-
-                    }
-                } catch (err) {
-                    console.error(`Error in getData(): ${err}`);
-                }
-
-            };
-
-            getData();
+            - If it's 2020, the unique prefix for MLB is `398`. 
+            - If it's not 2019 you can find out the league prefix by running:
+            ```
+            npm run league-prefix
             ```
             - You can find your league ID simply by logging into the Yahoo Fantasy Baseball website - it'll be the value after `https://baseball.fantasysports.yahoo.com/b1/`
-            - Combine those two with ".l." for a final format of `388.l.123456`
+            - Combine those two with ".l." for a final format of `398.l.123456`
     - `TEAM`: This is your team number.
-        - Just log into the Yahoo Fantasy Baseball website, click on "My Team", then check the URL to see what team number you are.
+        - Just log into the Yahoo Fantasy Baseball website, click on "My Team", then check the URL to see what team number you are. Usually 1-8
     - `AUTH_FILE`: Where to store the credentials. Can be anything you want.
 
 ## Usage
@@ -91,7 +71,7 @@ https://api.login.yahoo.com/oauth2/request_auth?client_id=YOUR-CLIENT-ID-GOES-HE
 
 Navigate to the repo directory and run:
 ```
-> node index.js
+> npm run start
 ```
 
 
