@@ -44,7 +44,7 @@ https://api.login.yahoo.com/oauth2/request_auth?client_id=YOUR-CLIENT-ID-GOES-HE
 10. [Install NodeJS](https://nodejs.org/en/download/) (I used v11.11.0 but most versions should work)
 11. Clone this repo
 12. In the repo directory type `npm install`
-13. Open `config.json` in a text editor
+13. Rename `config.json.example` to `config.json` and open it in a text editor
 14. Enter in the following values and save:
     - `CONSUMER_KEY`: Obtained from Yahoo in step 5 above
     - `CONSUMER_SECRET`: Also obtained from Yahoo in step 5 above
@@ -53,7 +53,7 @@ https://api.login.yahoo.com/oauth2/request_auth?client_id=YOUR-CLIENT-ID-GOES-HE
         - (1) a unique prefix Yahoo randomly assigns each season
         - (2) the string ".l." (that's a lowercase L)
         - (3) the unique ID of your league
-        - E.g.: `388.l.123456`
+        - E.g.: `398.l.123456`
         - To find out this number:
             - If it's 2020, the unique prefix for MLB is `398`. 
             - You can find out the league prefix by running:

@@ -2,7 +2,7 @@ const fs = require("fs");
 const qs = require("qs");
 const axios = require("axios");
 const parser = require("xml2json");
-const CONFIG = require("./config.json");
+const CONFIG = require("../config.json");
 
 exports.yfbb = {
   // Global credentials variable
