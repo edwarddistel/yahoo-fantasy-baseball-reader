@@ -60,6 +60,7 @@ https://api.login.yahoo.com/oauth2/request_auth?client_id=YOUR-CLIENT-ID-GOES-HE
             - If it's 2021, the unique prefix for MLB is `404`. 
             - You can find out the league prefix by running:
             ```
+            npm run start
             npm run league-prefix
             ```
             - You can find your league ID simply by logging into the Yahoo Fantasy Baseball website - it'll be the value after `https://baseball.fantasysports.yahoo.com/b1/`
