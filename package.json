@@ -7,7 +7,8 @@
     "start": "node src/index.js",
     "league-prefix": "node src/getLeaguePrefix.js",
     "test": "npx mocha",
-    "format": "eslint --fix \"$PWD/src/**/*.js\" && prettier-eslint \"$PWD/src/**/*.js\""
+    "format": "eslint --fix \"$PWD/src/**/*.js\" && prettier-eslint \"$PWD/src/**/*.js\"",
+    "update": "ncu -u && npm update && rm package-lock.json && npm install"
   },
   "repository": {
     "type": "git",
@@ -18,21 +19,21 @@
   "license": "ISC",
   "dependencies": {
     "axios": "^0.21.1",
-    "qs": "^6.9.4",
+    "qs": "^6.10.1",
     "xml2json": "^0.12.0"
   },
   "devDependencies": {
-    "chai": "^4.2.0",
-    "eslint": "^7.6.0",
-    "eslint-config-airbnb-base": "^14.2.0",
-    "eslint-config-prettier": "^6.11.0",
-    "eslint-plugin-import": "^2.22.0",
-    "eslint-plugin-prettier": "^3.1.4",
-    "husky": "^4.2.5",
-    "mocha": "^8.1.0",
-    "npm-check-updates": "^7.0.2",
-    "prettier": "^2.0.5",
-    "prettier-eslint": "^11.0.0",
-    "prettier-eslint-cli": "^5.0.0"
+    "chai": "^4.3.4",
+    "eslint": "^7.22.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-config-prettier": "^8.1.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-prettier": "^3.3.1",
+    "husky": "^5.2.0",
+    "mocha": "^8.3.2",
+    "npm-check-updates": "^11.3.0",
+    "prettier": "^2.2.1",
+    "prettier-eslint": "^12.0.0",
+    "prettier-eslint-cli": "^5.0.1"
   }
 }

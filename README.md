@@ -57,7 +57,7 @@ https://api.login.yahoo.com/oauth2/request_auth?client_id=YOUR-CLIENT-ID-GOES-HE
         - (3) the unique ID of your league
         - E.g.: `398.l.123456`
         - To find out this number:
-            - If it's 2020, the unique prefix for MLB is `398`. 
+            - If it's 2021, the unique prefix for MLB is `404`. 
             - You can find out the league prefix by running:
             ```
             npm run league-prefix
