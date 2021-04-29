@@ -16,7 +16,7 @@ Also, this is written in NodeJS. If you prefer PHP I have a primitive version of
 
 ### Part 1: Get access codes from Yahoo
 1. Log into Yahoo
-2. Navigate to https://web.archive.org/web/20131003155757/https://developer.yahoo.com/apps/create/
+2. Navigate to https://developer.yahoo.com/apps/create/
 3. Fill out the form
     - Application Name (Whatever)
     - Application Type (Web Application)
