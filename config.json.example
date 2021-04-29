@@ -4,5 +4,7 @@
     "YAHOO_AUTH_CODE" : "=======",
     "LEAGUE_KEY" : "===.l.=====",
     "TEAM" : "1",
-    "AUTH_FILE" : "./credentials.json"
+    "AUTH_FILE" : "./credentials.json",
+    "FREE_AGENTS": "3"
+}
 }

@@ -20,8 +20,9 @@ exports.yfbb = {
   gameKey() {
     return `${this.YAHOO}/game/mlb`;
   },
-  freeAgents() {
-    return `${this.YAHOO}/league/${CONFIG.LEAGUE_KEY}/players;status=FA;start=0;sort=OR`;
+  freeAgents(i) {
+    const startNum = typeof i !== "number" || i < 0 || i > 20 ? 0 : i;
+    return `${this.YAHOO}/league/${CONFIG.LEAGUE_KEY}/players;status=FA;start=${startNum};sort=OR`;
   },
   myTeam() {
     return `${this.YAHOO}/team/${CONFIG.LEAGUE_KEY}.t.${CONFIG.TEAM}/roster/`;
@@ -161,8 +162,21 @@ exports.yfbb = {
   // Get a list of free agents
   async getFreeAgents() {
     try {
-      const results = await this.makeAPIrequest(this.freeAgents());
-      return results.fantasy_content.league.players;
+      const freeAgentLimit = CONFIG.FREE_AGENTS && /\d/.test(CONFIG.FREE_AGENTS) ? parseInt(CONFIG.FREE_AGENTS, 10) : 0;
+      const promises = [];
+
+      for (let i = 0; i <= freeAgentLimit; i++) {
+        const reqUrl = this.freeAgents(freeAgentLimit);
+        promises.push(this.makeAPIrequest(reqUrl));
+      }
+      const completedPromises = await Promise.all(promises);
+      const results = [];
+      completedPromises.forEach((result) => {
+        if (result.fantasy_content && result.fantasy_content.league && result.fantasy_content.league.players && result.fantasy_content.league.players.player) {
+          results.push(...result.fantasy_content.league.players.player);
+        }
+      });
+      return results;
     } catch (err) {
       console.error(`Error in getFreeAgents(): ${err}`);
       return err;

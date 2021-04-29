@@ -16,7 +16,7 @@ Also, this is written in NodeJS. If you prefer PHP I have a primitive version of
 
 ### Part 1: Get access codes from Yahoo
 1. Log into Yahoo
-2. Navigate to https://developer.yahoo.com/apps/create/
+2. Navigate to https://web.archive.org/web/20131003155757/https://developer.yahoo.com/apps/create/
 3. Fill out the form
     - Application Name (Whatever)
     - Application Type (Web Application)
@@ -43,7 +43,7 @@ https://api.login.yahoo.com/oauth2/request_auth?client_id=YOUR-CLIENT-ID-GOES-HE
 
 ### Part 2: Configure this app
 
-10. [Install NodeJS](https://nodejs.org/en/download/) (I used v11.11.0 but most versions should work)
+10. [Install NodeJS](https://nodejs.org/en/download/) (Check the .nvmrc file for version but most versions should work)
 11. Clone this repo
 12. In the repo directory type `npm install`
 13. Rename `config.json.example` to `config.json` and open it in a text editor
@@ -68,6 +68,7 @@ https://api.login.yahoo.com/oauth2/request_auth?client_id=YOUR-CLIENT-ID-GOES-HE
     - `TEAM`: This is your team number.
         - Just log into the Yahoo Fantasy Baseball website, click on "My Team", then check the URL to see what team number you are. Usually 1-8
     - `AUTH_FILE`: Where to store the credentials. Can be anything you want.
+    - `FREE_AGENTS`: How many "pages" of free agents to request from Yahoo, 25 at a time. E.g. 0 = first 25 free agents by rank in the league, 1 = 50, 2 = 75, etc.
 
 ## Usage
 ### Run the app
@@ -105,19 +106,19 @@ First, an overview of the "Resources" (aka endpoints) Yahoo makes available:
 ![Yahoo Fantasy API](/screenshots/plectica-small.png)
 
 - **Player**
-    - Player stats & info, [docs](https://developer.yahoo.com/fantasysports/guide/player-resource.html)
+    - Player stats & info, [docs](https://web.archive.org/web/20131003155757/https://developer.yahoo.com/fantasysports/guide/player-resource.html)
 - **Game**
-    - individual game data, [docs](https://developer.yahoo.com/fantasysports/guide/game-resource.html)
+    - individual game data, [docs](https://web.archive.org/web/20131003155757/https://developer.yahoo.com/fantasysports/guide/game-resource.html)
 - **League**
-    - info about your league, [docs](https://developer.yahoo.com/fantasysports/guide/league-resource.html)
+    - info about your league, [docs](https://web.archive.org/web/20131003155757/https://developer.yahoo.com/fantasysports/guide/league-resource.html)
 - **Team**
-    - stats, standings and roster info about your team, [docs](https://developer.yahoo.com/fantasysports/guide/team-resource.html)
+    - stats, standings and roster info about your team, [docs](https://web.archive.org/web/20131003155757/https://developer.yahoo.com/fantasysports/guide/team-resource.html)
 - **Roster**
-    - manage your roster, [docs](https://developer.yahoo.com/fantasysports/guide/roster-resource.html)
+    - manage your roster, [docs](https://web.archive.org/web/20131003155757/https://developer.yahoo.com/fantasysports/guide/roster-resource.html)
 - **Transaction**
-    - monitor or make transactions, [docs](https://developer.yahoo.com/fantasysports/guide/transaction-resource.html)
+    - monitor or make transactions, [docs](https://web.archive.org/web/20131003155757/https://developer.yahoo.com/fantasysports/guide/transaction-resource.html)
 - **User**
-    - info about the Yahoo user, [docs](https://developer.yahoo.com/fantasysports/guide/user-resource.html)
+    - info about the Yahoo user, [docs](https://web.archive.org/web/20131003155757/https://developer.yahoo.com/fantasysports/guide/user-resource.html)
 
 Except for "Roster", all other 6 endpoints also offer groups of items called "Collections" (instead of "Resources"). Basically the same content, just more than one item at a time.
 
@@ -160,7 +161,7 @@ For all the links below, the base URL is https://fantasysports.yahooapis.com/fan
 | sort_date (baseball, basketball, and hockey only) | YYYY-MM-DD | /players;sort_type=date;sort_date=2010-02-01  (Note: Applied only in a league's context) |
 | sort_week (football only) | week | /players;sort_type=week;sort_week=10
 | start | Any integer 0 or greater | /players;start=25 (Note: Applied only in a league's context) |
-| count | Any integer greater than 0 | /players;count=5 (Note: Applied only in a league's context) |
+| count | Any integer b/t 0 & 25 | /players;count=5 (Note: Applied only in a league's context) |
 
 #### Game subresources
 - With the Game API, you can obtain the fantasy game related information, like the fantasy game name, the Yahoo! game code, and season.

@@ -21,7 +21,8 @@
         "no-console": "off",
         "require-jsdoc": "off",
         "guard-for-in": "off",
-        "prettier/prettier": ["error"]
+        "prettier/prettier": ["error"],
+        "no-plusplus": "off"
     },
     "overrides": [
         {
