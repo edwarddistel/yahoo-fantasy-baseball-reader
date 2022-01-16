@@ -19,8 +19,9 @@ Also, this is written in NodeJS. If you prefer PHP I have a primitive version of
 2. Navigate to https://developer.yahoo.com/apps/create/
 3. Fill out the form
     - Application Name (Whatever)
-    - Application Type (Web Application)
-    - Callback Domain (anything, e.g. www.github.com)
+    - Description (Whatever)
+    - Homepage URL (anything, e.g. www.github.com)
+    - Redirect URI(s) (anything, e.g. www.github.com)
     - API Permissions (checkmark Fantasy Sports, then Read/Write)
     - ![](/screenshots/yahoo-1.png)
 4. Create App
@@ -46,8 +47,9 @@ https://api.login.yahoo.com/oauth2/request_auth?client_id=YOUR-CLIENT-ID-GOES-HE
 10. [Install NodeJS](https://nodejs.org/en/download/) (Check the .nvmrc file for version but most versions should work)
 11. Clone this repo
 12. In the repo directory type `npm install`
-13. Rename `config.json.example` to `config.json` and open it in a text editor
-14. Enter in the following values and save:
+13. Optional: To make sure you're using the right version NodeJS, type in `nvm use`. If you get an error message that `nvm` cannot be found, install it (e.g. [Mac](https://formulae.brew.sh/formula/nvm)) and try again
+14. Rename `config.json.example` to `config.json` and open it in a text editor
+15. Enter in the following values and save:
     - `CONSUMER_KEY`: Obtained from Yahoo in step 5 above
     - `CONSUMER_SECRET`: Also obtained from Yahoo in step 5 above
     - `YAHOO_AUTH_CODE`: Obtained from Yahoo in step 9 above (**not the App ID in step 5!**)
@@ -57,14 +59,14 @@ https://api.login.yahoo.com/oauth2/request_auth?client_id=YOUR-CLIENT-ID-GOES-HE
         - (3) the unique ID of your league
         - E.g.: `404.l.123456`
         - To find out this number:
-            - If it's 2021, the unique prefix for MLB is `404`. 
+            - If it's 2022, the unique prefix for MLB is `412`. 
             - You can find out the league prefix by running:
             ```
             npm run start
             npm run league-prefix
             ```
             - You can find your league ID simply by logging into the Yahoo Fantasy Baseball website - it'll be the value after `https://baseball.fantasysports.yahoo.com/b1/`
-            - Combine those two with ".l." for a final format of `404.l.123456`
+            - Combine those two with ".l." for a final format of `412.l.123456`
     - `TEAM`: This is your team number.
         - Just log into the Yahoo Fantasy Baseball website, click on "My Team", then check the URL to see what team number you are. Usually 1-8
     - `AUTH_FILE`: Where to store the credentials. Can be anything you want.
