@@ -4,5 +4,7 @@ updates:
     directory: "/"
     schedule:
       interval: "daily"
-    allow:
-      dependency-type: "all"
+    rebase-strategy: "auto"
+    labels:
+      - "security"
+      - "dependencies"
