@@ -18,7 +18,7 @@
   "author": "Edward Distel",
   "license": "ISC",
   "dependencies": {
-    "axios": "^0.26.0",
+    "axios": "^0.26.1",
     "qs": "^6.10.3",
     "xml2json": "^0.12.0"
   },
