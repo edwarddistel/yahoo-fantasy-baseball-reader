@@ -34,6 +34,6 @@
     "npm-check-updates": "^16.0.5",
     "prettier": "^2.7.1",
     "prettier-eslint": "^15.0.1",
-    "prettier-eslint-cli": "^7.0.0"
+    "prettier-eslint-cli": "^7.0.1"
   }
 }
