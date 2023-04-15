@@ -166,7 +166,7 @@ exports.yfbb = {
       const promises = [];
 
       for (let i = 0; i <= freeAgentLimit; i++) {
-        const reqUrl = this.freeAgents(freeAgentLimit);
+        const reqUrl = this.freeAgents(i);
         promises.push(this.makeAPIrequest(reqUrl));
       }
       const completedPromises = await Promise.all(promises);
