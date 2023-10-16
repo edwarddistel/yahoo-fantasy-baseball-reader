@@ -33,7 +33,7 @@
     "mocha": "^10.2.0",
     "npm-check-updates": "^16.14.6",
     "prettier": "^3.0.3",
-    "prettier-eslint": "^15.0.1",
+    "prettier-eslint": "^16.1.1",
     "prettier-eslint-cli": "^7.1.0"
   }
 }
