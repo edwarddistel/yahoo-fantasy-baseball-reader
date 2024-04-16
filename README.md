@@ -57,12 +57,15 @@ https://api.login.yahoo.com/oauth2/request_auth?client_id=YOUR-CLIENT-ID-GOES-HE
         - (1) a unique prefix Yahoo randomly assigns each season
         - (2) the string ".l." (that's a lowercase L)
         - (3) the unique ID of your league
-        - E.g.: `422.l.123456`
+        - E.g.: `431.l.123456`
         - To find out this number:
-            - If it's 2023 and baseball, the unique prefix for MLB is `422`. 
+            - If it's 2023 and baseball, the unique prefix for MLB is `431`. 
             - You can find out the league prefix by running:
             ```
-            npm run start
+            nvm use
+            (if necessary install the appopriate version of node)
+            npm install
+            npm start
             npm run league-prefix
             ```
             - You can find your league ID simply by logging into the Yahoo Fantasy Baseball website - it'll be the value after `https://baseball.fantasysports.yahoo.com/b1/`
