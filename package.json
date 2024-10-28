@@ -31,7 +31,7 @@
     "eslint-plugin-prettier": "^5.2.1",
     "husky": "^9.1.6",
     "mocha": "^10.7.3",
-    "npm-check-updates": "^17.1.6",
+    "npm-check-updates": "^17.1.9",
     "prettier": "^3.3.3",
     "prettier-eslint": "^16.3.0",
     "prettier-eslint-cli": "^8.0.1"
