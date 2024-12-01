@@ -8,9 +8,9 @@ This tool is for you.
 - Usage
 - Yahoo's API docs
 
-If you want a more advanced tool, see my [Yahoo Fantasy Baseball Automater](https://github.com/edwarddistel/yahoo-fantasy-baseball-automater), which attempts to start an optimal lineup for you based on your team vs the day's probably pitchers.
-
 Also, this is written in NodeJS. If you prefer PHP I have a primitive version of this in /php-version.
+
+This repo is 6 years old and I'm tempted to rewrite the entire thing as it looks terrible to me now but it still works so I leave it up.
 
 ## Installation
 
