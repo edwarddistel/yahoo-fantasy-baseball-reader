@@ -57,9 +57,9 @@ https://api.login.yahoo.com/oauth2/request_auth?client_id=YOUR-CLIENT-ID-GOES-HE
         - (1) a unique prefix Yahoo randomly assigns each season
         - (2) the string ".l." (that's a lowercase L)
         - (3) the unique ID of your league
-        - E.g.: `431.l.123456`
+        - E.g.: `458.l.123456`
         - To find out this number:
-            - If it's 2023 and baseball, the unique prefix for MLB is `431`. 
+            - If it's 2025 and baseball, the unique prefix for MLB is `458`. 
             - You can find out the league prefix by running:
             ```
             nvm use
