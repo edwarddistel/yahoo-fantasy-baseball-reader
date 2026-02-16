@@ -16,7 +16,7 @@
   "license": "ISC",
   "dependencies": {
     "axios": "1.13.5",
-    "qs": "6.14.2",
+    "qs": "6.15.0",
     "xml2json": "0.12.0"
   }
 }
