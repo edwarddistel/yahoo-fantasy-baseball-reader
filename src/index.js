@@ -8,6 +8,9 @@ const getData = async () => {
 
     // If crededentials exist
     if (yahoo.yfbb.CREDENTIALS) {
+      const a = await yahoo.yfbb.getUserInfo();
+      console.log(a);
+      process.exit(0);
       yahoo.yfbb.WEEK = await yahoo.yfbb.getCurrentWeek();
       console.log(`Getting current week...`);
 

@@ -154,6 +154,7 @@ exports.yfbb = {
         }
       } else {
         console.error(`Error with credentials in makeAPIrequest()/refreshAuthorizationToken(): ${err}`);
+        process.exit(1);
       }
       return err;
     }
