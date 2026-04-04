@@ -8,9 +8,7 @@ This tool is for you.
 - Usage
 - Yahoo's API docs
 
-Also, this is written in NodeJS. If you prefer PHP I have a primitive version of this in /php-version.
-
-This repo is 6 years old and I'm tempted to rewrite the entire thing as it looks terrible to me now but it still works so I leave it up.
+Also, this is written in NodeJS. Tested and updated for the 2026 season.
 
 ## Installation
 
