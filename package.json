@@ -1,11 +1,11 @@
 {
   "name": "yahoo-fantasy-baseball-reader",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Download your fantasy baseball data from Yahoo's API.",
   "main": "src/index.js",
   "scripts": {
-    "start": "node src/index.js",
-    "league-prefix": "node src/getLeaguePrefix.js"
+    "start": "node ./src/index.mjs",
+    "league-prefix": "node ./src/index.mjs league-prefix"
   },
   "repository": {
     "type": "git",
@@ -15,8 +15,6 @@
   "author": "Edward Distel",
   "license": "ISC",
   "dependencies": {
-    "axios": "1.8.4",
-    "qs": "6.14.0",
-    "xml2json": "0.12.0"
+    "fast-xml-parser": "^5.2.5"
   }
 }
