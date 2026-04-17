@@ -15,6 +15,6 @@
   "author": "Edward Distel",
   "license": "ISC",
   "dependencies": {
-    "fast-xml-parser": "^5.6.0"
+    "fast-xml-parser": "^5.7.0"
   }
 }
