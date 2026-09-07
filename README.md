@@ -1,6 +1,8 @@
-# Yahoo Fantasy Baseball API Reader
+# Yahoo Fantasy Baseball API Reader (DEPRECATED)
 
-Want to download your fantasy baseball data from Yahoo but having a hard time interfacing with their poorly documented API? 
+In the summer of 2026 Yahoo disabled its programmatic access to its sports APIs. You must now submit a formal application at their portal: https://sports.yahoo.com/developer/
+
+~Want to download your fantasy baseball data from Yahoo but having a hard time interfacing with their poorly documented API?~ 
 
 This tool is for you.
 
