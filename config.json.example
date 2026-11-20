@@ -1,9 +1,11 @@
 {
-    "CONSUMER_KEY" : "============================================================",
-    "CONSUMER_SECRET" : "========================================",
-    "YAHOO_AUTH_CODE" : "=======",
-    "LEAGUE_KEY" : "===.l.=====",
-    "TEAM" : "1",
-    "AUTH_FILE" : "./credentials.json",
-    "FREE_AGENTS": "3"
+  "CONSUMER_KEY": "YOUR_YAHOO_CLIENT_ID",
+  "CONSUMER_SECRET": "YOUR_YAHOO_CLIENT_SECRET",
+  "YAHOO_AUTH_CODE": "ONE_TIME_CODE_FOR_FIRST_RUN_ONLY",
+  "YAHOO_REDIRECT_URI": "oob",
+  "LEAGUE_KEY": "469.l.123456",
+  "TEAM": "1",
+  "AUTH_FILE": "./credentials.json",
+  "FREE_AGENTS": 3,
+  "FREE_AGENT_PAGE_SIZE": 25
 }

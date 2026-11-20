@@ -1,159 +1,138 @@
-# Yahoo Fantasy Baseball API Reader
+# Yahoo Fantasy Baseball Reader
 
-**A read-only Node.js CLI for downloading Yahoo Fantasy Baseball league, roster, player, matchup, and transaction data as JSON.**
+**Download your Yahoo Fantasy Baseball data to JSON with a tested, read-only Node.js CLI.**
+
+[Get started](#quick-start) · [Commands](#commands) · [Architecture](#architecture) · [Complete Yahoo API endpoint reference](#yahoo-fantasy-api-docs) · [Yahoo Fantasy Baseball Coach](#companion-project-yahoo-fantasy-baseball-coach)
 
 > [!IMPORTANT]
-> **Yahoo Fantasy Sports API access now requires approval.** In summer 2026, Yahoo moved Fantasy Sports API access from self-service registration to an application and review process. Creating a Yahoo developer app and obtaining OAuth keys is **no longer sufficient**.
->
-> To access Yahoo Fantasy data, **[apply to Yahoo for Fantasy Sports API access](https://sports.yahoo.com/developer/access/)** and **sign Yahoo's required API Access and Use Agreement** (the NDA-style access paperwork). Once Yahoo approves and provisions your application for **read access**, you can authenticate and use this reader. **New write access is not currently offered by Yahoo.**
->
-> This project is **not discontinued**: the code remains a read-only API client, but whether it works for you depends on Yahoo granting access. It cannot bypass Yahoo's approval requirement.
+> **Yahoo approval is required.** Yahoo no longer offers unrestricted self-service access to the Fantasy Sports API. Apply at [Yahoo Fantasy Sports API Access](https://sports.yahoo.com/developer/access/), complete the **API Access and Use Agreement** (the NDA-style access paperwork), and wait for Yahoo to provision your application for **Fantasy Sports — Read**. A developer Client ID alone does not grant API access. Newly approved applications are read-only; this tool cannot make roster moves or bypass Yahoo's requirements.
 
-This repository started as a way to make Yahoo's sparsely documented Fantasy Sports endpoints easier to work with. It includes a runnable downloader and an extensive endpoint reference below. The CLI was refactored for **v2.0** and updated for the 2026 baseball season.
+This project queries Yahoo Fantasy's existing XML endpoints and exports your league, lineup, available players, current matchup, statistics, and recent transactions as JSON. It does not modify Yahoo data, run a server, or require a database.
 
-## Contents
+## Companion project: Yahoo Fantasy Baseball Coach
 
-- [Getting Yahoo API access](#getting-yahoo-api-access)
-- [What's new in v2.0](#whats-new-in-v20)
-- [Installation and configuration](#installation-and-configuration)
-- [Usage](#usage)
-- [Yahoo Fantasy API Docs](#yahoo-fantasy-api-docs)
+Want recommendations rather than just an export? **[Yahoo Fantasy Baseball Coach](https://github.com/edwarddistel/yahoo-fantasy-baseball-coach)** is a separate, self-hosted advisory service. It analyzes head-to-head categories, recommends start/sit decisions and potential free-agent additions, tracks weekly trends, and sends daily email reports and actionable pregame lineup alerts. It **does not automatically change your Yahoo roster**. The Coach connects directly to Yahoo and MLB; **this Reader is not a prerequisite**.
 
-## Getting Yahoo API access
+## What changed in v3.0
 
-Yahoo's current process has **two separate steps**: Yahoo must authorize your *application* to use the Fantasy Sports API, and the Yahoo account whose fantasy data you want to read must then authorize the app using OAuth.
+This is a full engineering rewrite of the existing Node.js reader. The public output keys and existing endpoint reference are retained.
 
-1. **[Apply for Fantasy Sports API access](https://sports.yahoo.com/developer/access/)**. Describe your application and its expected usage accurately. Yahoo reviews applications individually; approval is not automatic.
-2. **Complete Yahoo's legal agreement.** Yahoo requires you to sign its **API Access and Use Agreement** (sometimes described as an NDA or access agreement) before it provisions API access.
-3. **Create or update a [Yahoo developer application](https://developer.yahoo.com/apps/create/)**, following Yahoo's instructions. Request **Fantasy Sports — Read** permission if it is available. New write access is not currently available.
-4. **Confirm that your application is provisioned.** If Fantasy Sports permissions are missing from your application, follow Yahoo's [application confirmation instructions](https://sports.yahoo.com/developer/application-confirmation/). Supply the associated developer-account information and Client ID as Yahoo requests.
-5. **Obtain your application's OAuth Client ID and Client Secret.** These are also called the **Consumer Key** and **Consumer Secret**. You will need them for the setup below.
-
-> [!NOTE]
-> The Yahoo developer-console screenshots in `screenshots/` show the **older self-service flow** and may no longer match what Yahoo displays. Follow Yahoo's current developer portal and your approval instructions rather than relying on those screenshots.
-
-## What's new in v2.0
-
-The April 2026 code refactor replaced the older multi-file client with a single modern CLI in `src/index.mjs`. These are the capabilities implemented by the current version:
-
-| Area | What the revised version does |
+| Area | Behavior |
 | --- | --- |
-| **Modern Node.js implementation** | Uses ES modules, built-in `fetch`, `async`/`await`, and `node:fs`/`node:path`; removes the previous `axios`, `qs`, and `xml2json` dependencies. |
-| **XML-to-JavaScript parsing** | Uses `fast-xml-parser` to turn Yahoo's XML responses into JavaScript objects, with array handling for several common repeating resources. |
-| **OAuth 2.0 lifecycle** | Exchanges an initial authorization code for tokens, saves the token response to `AUTH_FILE`, reloads saved tokens on later runs, and refreshes/retries once when Yahoo returns HTTP 401 or a `token_expired` error. |
-| **Configuration options** | Reads settings from a JSON config file or environment variables (environment variables override the JSON values). Supports alternate configuration and output paths via CLI flags. |
-| **Free-agent pagination** | Requests configurable pages of available players, sorted by overall rank, in parallel. Configurable page size; default is 25. |
-| **Concurrent data collection** | Retrieves the main data sets using `Promise.all()` instead of fetching each sequentially. |
-| **League and weekly context** | Looks up your current league week and adds a `meta` section containing that week and the fetch timestamp. |
-| **Commands** | Supports `fetch-all` (the default), `league-prefix`, and `help`. |
-| **Error reporting** | Produces structured error output with details from failed authentication, invalid configuration, or failed API requests. |
-| **Read-only requests** | Retrieves data using authenticated GET requests. It does **not** edit your lineup, add/drop players, or perform trades. |
+| **Modular design** | Separate, independently testable modules for configuration, Yahoo OAuth, authenticated HTTP, XML, URL paths, data orchestration, CLI, and file storage. |
+| **OAuth 2.0** | Exchanges the authorization code, reuses saved tokens, refreshes expired tokens, coalesces concurrent refreshes, and supports both legacy `oob` and registered callback URLs. |
+| **Reliability** | Timeout limits, retries for transient network errors / HTTP 429 / HTTP 5xx, `Retry-After` support, and bounded Yahoo API request concurrency. |
+| **Parsing and pagination** | Validates XML; normalizes singleton Yahoo collections; fetches free-agent pages and requests large player-key sets in batches. |
+| **Efficiency** | Avoids fetching the same roster twice when collecting player statistics. |
+| **Security** | No credentials in source code; atomic, private-permission token and export files; minimal error messages that never include provider response bodies; sensible `.gitignore` and CI permissions. |
+| **Tests** | Node's built-in test runner, dependency-injected fake network responses, OAuth and retry coverage, parser and path tests, and an end-to-end mocked CLI run. |
+| **Continuous integration** | GitHub Actions checks on supported Node.js LTS lines; Dependabot dependency updates. |
 
-### Data retrieved
+**Compatibility:** Your existing `config.json` keys, `credentials.json` OAuth payload, CLI `fetch-all` / `league-prefix` commands, and JSON output section names are supported. Some invalid configuration values now fail fast. `FREE_AGENTS` retains its *last page index* behavior for backward compatibility.
 
-A normal run fetches your free agents, roster players, player stats, current-week scoreboard, stat-category IDs, current roster, and league transactions. It also queries your Yahoo account's games and the league's current week. All returned results are written to a single JSON file.
+## Quick start
 
-The code also includes a `getMyWeeklyStats()` method for team weekly statistics, but **that method is not included in the default `fetch-all` output**.
+### 1. Obtain approved Yahoo API access
 
-## Installation and configuration
+1. Submit an application at [Yahoo's access page](https://sports.yahoo.com/developer/access/), describing your intended data and use accurately.
+2. Sign Yahoo's **API Access and Use Agreement** if required, and follow Yahoo's approval/provisioning instructions.
+3. Create or update your [Yahoo developer app](https://developer.yahoo.com/apps/create/) and obtain its OAuth **Client ID** and **Client Secret** (also known as Consumer Key and Consumer Secret). Choose **Fantasy Sports — Read** when available.
+4. If your approved app has not gained Fantasy Sports permissions, follow Yahoo's [confirmation process](https://sports.yahoo.com/developer/application-confirmation/).
 
-### 1. Install dependencies
+Your Yahoo account must also authorize the approved application via OAuth. This is a separate permission step.
 
-Install [Node.js](https://nodejs.org/en/download/) and clone the repository. The project includes an `.nvmrc` file to select its configured Node version if you use [`nvm`](https://github.com/nvm-sh/nvm).
+### 2. Install
+
+Requirements: **Node.js 22+**, npm, an approved Yahoo Fantasy Sports API application, and a league/team you can access.
 
 ```bash
 git clone https://github.com/edwarddistel/yahoo-fantasy-baseball-reader.git
 cd yahoo-fantasy-baseball-reader
-nvm use       # optional, if you have nvm installed
-npm install
-```
-
-### 2. Authorize your Yahoo account
-
-**Do this only after Yahoo has approved and provisioned the application** as described in [Getting Yahoo API access](#getting-yahoo-api-access).
-
-The current implementation uses Yahoo's **out-of-band OAuth 2.0 authorization-code flow** (`redirect_uri=oob`). Insert your approved application's **Client ID / Consumer Key** into this URL:
-
-```text
-https://api.login.yahoo.com/oauth2/request_auth?client_id=YOUR-CLIENT-ID-GOES-HERE&redirect_uri=oob&response_type=code&language=en-us
-```
-
-Open the URL in a browser, sign in with the Yahoo account that owns your fantasy team, approve the requested read access, and copy the **authorization code** that Yahoo supplies. That code is the initial `YAHOO_AUTH_CODE`; it is **not** your App ID, Consumer Key, or Consumer Secret.
-
-Yahoo documents the out-of-band flow in its [OAuth 2.0 authorization-code guide](https://developer.yahoo.com/oauth2/guide/flows_authcode/). If Yahoo has provisioned your app with different OAuth instructions, follow Yahoo's requirements; this CLI currently expects `oob` for its initial code exchange.
-
-### 3. Configure the reader
-
-Copy the example configuration and fill in your values:
-
-```bash
+nvm use             # optional, if you use nvm
+npm ci
 cp config.json.example config.json
 ```
+
+`npm ci` installs the versions in `package-lock.json`; no vendored `node_modules` are included.
+
+### 3. Configure your Yahoo application and league
+
+Edit the local, **git-ignored** `config.json`:
 
 ```json
 {
   "CONSUMER_KEY": "YOUR_YAHOO_CLIENT_ID",
   "CONSUMER_SECRET": "YOUR_YAHOO_CLIENT_SECRET",
   "YAHOO_AUTH_CODE": "YOUR_ONE_TIME_AUTHORIZATION_CODE",
+  "YAHOO_REDIRECT_URI": "oob",
   "LEAGUE_KEY": "469.l.123456",
   "TEAM": "1",
   "AUTH_FILE": "./credentials.json",
-  "FREE_AGENTS": "3",
-  "FREE_AGENT_PAGE_SIZE": "25"
+  "FREE_AGENTS": 3,
+  "FREE_AGENT_PAGE_SIZE": 25
 }
 ```
 
-| Setting | Description |
+| Setting | Meaning |
 | --- | --- |
-| `CONSUMER_KEY` | Yahoo-approved application's **Client ID / Consumer Key**. |
-| `CONSUMER_SECRET` | Its **Client Secret / Consumer Secret**. |
-| `YAHOO_AUTH_CODE` | One-time OAuth code from the previous step. Only needed when there is no saved credentials file. |
-| `LEAGUE_KEY` | Format: `{game_key}.l.{league_id}`, e.g., `469.l.123456` for a 2026 MLB league. Game keys change by season. |
-| `TEAM` | Your team number within the league, visible in the **My Team** URL on Yahoo. |
-| `AUTH_FILE` | Path for the saved OAuth token response, resolved relative to the config file's directory. |
-| `FREE_AGENTS` | **Zero-based last page index**, not the number of pages. `0` fetches one page, `1` fetches two, `3` fetches four. |
-| `FREE_AGENT_PAGE_SIZE` | Number of free agents requested per page; defaults to `25` if omitted. |
+| `CONSUMER_KEY` | Yahoo approved application's OAuth Client ID. |
+| `CONSUMER_SECRET` | Its Client Secret. Never commit this. |
+| `YAHOO_AUTH_CODE` | One-time OAuth authorization code, needed only if no valid local token file exists. Remove it after first successful exchange. |
+| `YAHOO_REDIRECT_URI` | **Exact** redirect URI configured in your Yahoo app. Defaults to `oob` for older applications. Newer apps may require a registered HTTPS callback URL. |
+| `LEAGUE_KEY` | Yahoo league key: `game_key.l.league_id`. The `469` shown is an example, not a permanently fixed MLB season key. |
+| `TEAM` | Your team number within the league (for example `1`). |
+| `AUTH_FILE` | Location of the saved OAuth token JSON, relative to `config.json` (default `credentials.json`). |
+| `FREE_AGENTS` | Last zero-based page to fetch: `0` = **one** page, `3` = **four** pages. Allowed: 0–39. |
+| `FREE_AGENT_PAGE_SIZE` | Players per page; default 25, allowed 1–25. |
 
-**Finding your league key:** For the 2026 MLB season the game prefix is `469`. For another season, use `npm run league-prefix` after authorization to look up the current MLB prefix. Your league ID appears in the URL when you open your league on Yahoo Fantasy Baseball, after `/b1/`. Join these values with `.l.`. For example, `469.l.123456`.
+You can also supply these settings through environment variables; they override `config.json`. To avoid saving the Client Secret in a file, export `CONSUMER_KEY`, `CONSUMER_SECRET`, `LEAGUE_KEY`, and `TEAM` in your shell and omit `config.json`. `AUTH_FILE` is resolved relative to the `--config` file path.
 
-**Protect your secrets:** Do not commit `config.json`, `credentials.json`, or downloaded fantasy data to a public repository. The included `.gitignore` excludes the default filenames, but custom credential/output filenames need to be ignored separately. Treat the Client Secret, authorization code, and refresh tokens as sensitive credentials.
+### 4. Authorize your Yahoo account
 
-### 4. Optional: configure with environment variables
-
-All supported config values can be passed as environment variables, which take precedence over `config.json`. If you supply all required values in the environment, the JSON config file may be omitted.
+After Yahoo approves the app, generate the **authorization URL**:
 
 ```bash
-export CONSUMER_KEY='your-client-id'
-export CONSUMER_SECRET='your-client-secret'
-export LEAGUE_KEY='469.l.123456'
-export TEAM='1'
-export AUTH_FILE='./credentials.json'
-# Also set YAHOO_AUTH_CODE for the first run if AUTH_FILE does not exist.
+npm run auth-url
+```
+
+Open the displayed URL in your browser, sign in with the Yahoo account that belongs to your fantasy team, and authorize the application.
+
+- **Legacy `oob` applications:** Yahoo may display a one-time authorization code. Copy it into `YAHOO_AUTH_CODE` (or export it as an environment variable).
+- **Registered HTTPS redirect URI:** Yahoo redirects to the configured URL with a `?code=...` query parameter. Copy the **code parameter**, even if your example callback page responds with a 404. The redirect URI in your configuration **must match the URI registered with Yahoo exactly**.
+
+Run your first download. The reader exchanges the one-time code, saves `credentials.json` with private permissions, and reuses/refreshes it on subsequent runs. Remove `YAHOO_AUTH_CODE` from your local config after the token exchange.
+
+If Yahoo denies authorization, check **both** the Fantasy Sports app entitlement and the registered redirect URI. See [Yahoo's OAuth guide](https://developer.yahoo.com/oauth2/guide/flows_authcode/).
+
+### 5. Download your data
+
+```bash
 npm start
 ```
 
-## Usage
+By default this writes `allMyData.json` in your current directory. The output is a snapshot, not a continuously running service. Be mindful of Yahoo's data-use, retention, and sharing restrictions in your own access agreement.
 
-### Download all supported data
-
-```bash
-npm start
-```
-
-Equivalent direct invocation:
+## Commands
 
 ```bash
-node src/index.mjs fetch-all
+npm start                                      # default fetch-all
+node src/index.mjs fetch-all --config ./config.json --output ./my-data.json
+npm run league-prefix                         # print current MLB game ID
+npm run auth-url                              # print OAuth consent URL
+node src/index.mjs --help
+npm test                                      # run all automated tests
+npm run check                                 # syntax check + tests
 ```
 
-The command writes pretty-printed JSON to `allMyData.json` by default. The output structure is:
+`league-prefix` only requires your approved Yahoo application credentials, not `LEAGUE_KEY` or `TEAM`. Run it after OAuth authorization to help identify the current MLB game prefix.
+
+### JSON output
+
+The output retains its original top-level keys:
 
 ```json
 {
-  "meta": {
-    "fetchedAt": "2026-04-04T12:00:00.000Z",
-    "week": 1
-  },
+  "meta": { "fetchedAt": "2026-11-20T15:00:00.000Z", "week": 12 },
   "free agents": [],
   "my players": [],
   "my players' stats": {},
@@ -164,35 +143,59 @@ The command writes pretty-printed JSON to `allMyData.json` by default. The outpu
 }
 ```
 
-The values above are **illustrative placeholders**, not a guaranteed response schema: Yahoo may return different object shapes, and missing resources may be represented by empty arrays or `null`. The `meta` object contains the actual retrieval time and league week.
+The values above are illustrative; Yahoo controls the exact XML response structure, which means an empty/singleton collection may have a different shape. `getMyWeeklyStats()` is available as an internal reader method but, as in the original implementation, **weekly team stats are not exported separately by `fetch-all`**.
 
-### Find the current MLB game prefix
+### Data retrieved by the downloader
 
-```bash
-npm run league-prefix
+| Data | Yahoo resource |
+| --- | --- |
+| Account games (access check) | `users;use_login=1/games` |
+| Current league week | `league/{league_key}/metadata` |
+| Ranked available free agents | `league/{league_key}/players;status=FA;start=…;count=…;sort=OR` |
+| Your team's players | `team/{team_key}/roster/` |
+| Player stat details | `players;player_keys=…;out=stats` |
+| Current-week scoreboard | `league/{league_key}/scoreboard;week=…` |
+| Stat-category IDs | `game/{game_key}/stat_categories` |
+| Current roster resource | `team/{team_key}/roster/players` |
+| Add/trade/drop transactions | `league/{league_key}/transactions;types=add,trade,drop` |
+
+All of these are **GET** requests. This reader never changes a roster or submits a transaction.
+
+## Architecture
+
+```text
+src/
+  index.mjs     CLI entry point and exit codes
+  cli.mjs       command parsing and orchestration
+  config.mjs    JSON/env configuration and validation
+  oauth.mjs     Yahoo OAuth authorization, token refresh, private storage
+  http.mjs      authorized GETs, retries, throttling, timeouts
+  xml.mjs       Yahoo XML parsing and collection normalization
+  paths.mjs     validated endpoint builders
+  reader.mjs    higher-level fantasy data operations
+  storage.mjs   atomic, restricted-permission JSON writes
+test/           node:test unit and mocked end-to-end tests
+.github/        CI and Dependabot configuration
 ```
 
-This invokes the `league-prefix` command and prints the current MLB game ID, which can help build a `LEAGUE_KEY` for the active season.
+Each HTTP request is limited by a shared concurrency gate. Transient failures are retried with bounded delays; permanent permission failures are surfaced without logging response bodies. Tokens are refreshed in a single-flight operation to avoid simultaneous refreshes using the same rotating token.
 
-### Change the config or output file
-
-```bash
-node src/index.mjs fetch-all --config ./my-config.json --output ./fantasy-data.json
-```
-
-Or pass the arguments through npm:
+### Test and release workflow
 
 ```bash
-npm start -- --config ./my-config.json --output ./fantasy-data.json
+npm ci
+npm run check
 ```
 
-For the available commands and configuration fields:
+Tests use synthetic tokens, fake API responses, and temporary files. They do not contact Yahoo or require your credentials. GitHub Actions runs the same checks on Node.js 22 and 24. **A real authenticated Yahoo integration check remains necessary** to verify current entitlements, response formats, and league-specific behavior.
 
-```bash
-node src/index.mjs --help
-```
+## Security and limitations
 
-**Yahoo access issues:** An HTTP 403 or a missing Fantasy Sports permission may mean Yahoo has not provisioned your app for the API. Valid OAuth credentials alone do not grant Yahoo Fantasy API access; return to the [developer portal](https://sports.yahoo.com/developer/) and check your approval and application status.
+- **Never commit** `config.json`, `credentials.json`, OAuth codes, private league exports, or archives containing them. The ZIP here deliberately excludes those files, `.git/`, `node_modules/`, and old developer-console screenshots.
+- Existing files with custom names may need additional entries in `.gitignore`; ignore rules do **not** erase anything from Git history. If secrets were ever committed or published, rotate/revoke them and clean the affected history separately.
+- Files created by the application are written atomically with owner-only permissions on Unix-like systems (`0600`). Do not publish the generated JSON without checking the agreement and its contents.
+- Yahoo can change API access policies, rate limits, or XML response structures. Approval is external to this application; automated tests alone cannot guarantee the live API works.
+- The endpoint reference below is retained for compatibility and education. Its historical examples may include older seasons or deprecated capabilities; use [Yahoo's current documentation](https://sports.yahoo.com/developer/docs/) for any changed behavior.
 
 ---
 

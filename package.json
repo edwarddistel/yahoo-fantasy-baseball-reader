@@ -1,20 +1,20 @@
 {
   "name": "yahoo-fantasy-baseball-reader",
-  "version": "2.0.0",
-  "description": "Download your fantasy baseball data from Yahoo's API.",
-  "main": "src/index.js",
+  "version": "3.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Read-only, tested Yahoo Fantasy Baseball API downloader.",
+  "engines": { "node": ">=22" },
+  "bin": { "yahoo-fantasy-reader": "./src/index.mjs" },
   "scripts": {
-    "start": "node ./src/index.mjs",
-    "league-prefix": "node ./src/index.mjs league-prefix"
+    "start": "node src/index.mjs fetch-all",
+    "league-prefix": "node src/index.mjs league-prefix",
+    "auth-url": "node src/index.mjs auth-url",
+    "test": "node --test",
+    "check": "node --check src/index.mjs && node --test"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/edwarddistel/yahoo-fantasy-baseball-reader"
-  },
-  "keywords": [],
+  "repository": { "type": "git", "url": "https://github.com/edwarddistel/yahoo-fantasy-baseball-reader" },
   "author": "Edward Distel",
   "license": "ISC",
-  "dependencies": {
-    "fast-xml-parser": "^5.12.1"
-  }
+  "dependencies": { "fast-xml-parser": "^5.12.1" }
 }
